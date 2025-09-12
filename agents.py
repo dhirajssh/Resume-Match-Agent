@@ -45,7 +45,6 @@ def scrape_job_url(url: str):
     return f"ERROR: parsing HTML: {e}"
 
 model = ChatOllama(model="llama3.1:8b")
-print(load_system_prompt("summarizer.md"))
 
 agent = create_react_agent(
   model=model,
@@ -53,4 +52,15 @@ agent = create_react_agent(
   prompt=load_system_prompt("summarizer.md")
 )
 
-print(model.invoke("What is agentic AI?"))
+if __name__ == "__main__":
+  test_url = "https://boards.greenhouse.io/embed/job_app?token=7103535&utm_source=jobright"  # put a real job listing link here
+
+  result = agent.invoke({
+      "messages": [
+          {"role": "user", "content": f"Summarize this job: {test_url}"}
+      ]
+  })
+
+  print("\n--- Agent Output ---\n")
+  print(result)
+# print(model.invoke("What is agentic AI?"))
