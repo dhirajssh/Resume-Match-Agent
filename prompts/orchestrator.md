@@ -21,11 +21,11 @@ You will always receive:
 
 ## ✅ OUTPUT FORMAT
 
-You must return a dictionary in this exact format:
+You must return in the following format:
 
 ```json
 {
-  "return": "summarizer_agent" | "generator_agent",
+  "agent": "summarizer_agent" | "generator_agent",
   "link": "<url if the user provides>",
   "message": "<original user message>"
 }
