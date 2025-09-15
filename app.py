@@ -1,5 +1,5 @@
 import streamlit as st
-from agents import agent
+from agents.summarizer_agent import agent
 
 # Callback functions described here
 def chat_input_callback():

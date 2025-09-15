@@ -1,4 +1,3 @@
-import os
 from langchain_ollama import ChatOllama
 from langchain.tools import tool
 import requests
