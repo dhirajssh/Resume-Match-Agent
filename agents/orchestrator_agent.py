@@ -2,11 +2,11 @@ from langchain_ollama import ChatOllama
 from langgraph.prebuilt import create_react_agent
 from utils import load_system_prompt
 from pydantic import BaseModel, Field, field_validator
-from typing import Optional
+from typing import Optional, Literal
 
 class OrchestratorResponse(BaseModel):
   """Structured response for the orchestrator agent."""
-  agent:str = Field(
+  agent:Literal["summarizer_agent", "generator_agent"] = Field(
     ...,
     description="""
     Specifies which agent should handle the request.
@@ -59,11 +59,11 @@ class OrchestratorResponse(BaseModel):
     return value
 
 def initialize_orchestrator_agent():
-  model = ChatOllama(model = "llama3.1:8b")
+  model = ChatOllama(model = "llama3.1:8b").with_structured_output(OrchestratorResponse)
 
   orchestrator_agent = create_react_agent(
     model=model,
+    tools = [],
     prompt=load_system_prompt("orchestrator.md"),
-    response_format=OrchestratorResponse
   )
   return orchestrator_agent

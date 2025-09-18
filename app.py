@@ -1,5 +1,10 @@
 import streamlit as st
 from agents.summarizer_agent import agent
+from agents.orchestrator_agent import initialize_orchestrator_agent
+
+def initialize_session_state():
+  st.session_state["messages"] = []
+  st.session_state.orchestrator_agent = initialize_orchestrator_agent()
 
 # Callback functions described here
 def chat_input_callback():
@@ -10,7 +15,7 @@ def chat_input_callback():
 
   with st.status("Generating Summary...", expanded=False) as status:
     try:
-      result = agent.invoke({
+      result = st.session_state.orchestrator_agent.invoke({
         "messages": st.session_state["messages"]
       })
 
@@ -33,7 +38,7 @@ def chat_input_callback():
 
 
 if "messages" not in st.session_state:
-  st.session_state["messages"] = []
+  initialize_session_state()
 
 def display_messages():
   for msg in st.session_state["messages"]:
